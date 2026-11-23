@@ -6,8 +6,11 @@ workflows:
     environment:
       java: 21
     scripts:
-      - name: Update Gradle Wrapper & Build Debug APK
+      - name: Generate Keystore, Update Gradle & Build Debug APK
         script: |
+          if [ ! -f "debug.keystore" ]; then
+            keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
           if [ -f "gradle/wrapper/gradle-wrapper.properties" ]; then
             sed -i.bak 's/gradle-[0-9.]*-bin.zip/gradle-9.3.1-bin.zip/g' gradle/wrapper/gradle-wrapper.properties
           fi
