@@ -1,32 +1,18 @@
 workflows:
-  android-capacitor-apk:
-    name: Build Android APK from Web App
+  android-native-apk:
+    name: Build Native Android APK
     max_build_duration: 30
     instance_type: mac_mini_m2
     environment:
-      node: 20
       java: 17
     scripts:
-      - name: Install dependencies and build web app
-        script: |
-          if [ -f "package.json" ]; then
-            npm install
-            npm run build || mkdir -p dist && cp -r *.html *.js *.css assets src dist/ 2>/dev/null || true
-          else
-            mkdir -p dist
-            cp -r *.html *.js *.css dist/ 2>/dev/null || true
-          fi
-      - name: Add Capacitor and Android platform
-        script: |
-          npm init -y 2>/dev/null || true
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "PulsePlay" "com.waleed.pulseplay" --web-dir=dist
-          npx cap add android
-          npx cap sync android
       - name: Build Debug APK
         script: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          if [ -f "./gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug
+          else
+            gradle assembleDebug
+          fi
     artifacts:
-      - android/app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/apk/debug/*.apk
