@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">PulsePlay</string>
+
+    <!-- Bottom Navigation Tabs -->
+    <string name="tab_audio">الصوتيات</string>
+    <string name="tab_video">الفيديوهات</string>
+    <string name="tab_playlists">قوائم التشغيل</string>
+    <string name="tab_folders">المجلدات</string>
+
+    <!-- Permission Screen -->
+    <string name="permission_title">مشغل الوسائط المحلي</string>
+    <string name="permission_subtitle">بدون إعلانات. بدون إنترنت. تشغيل محلي وخاص 100% لجميع ملفات الصوت والفيديو.</string>
+    <string name="permission_grant_button">منح إذن الوسائط</string>
+    <string name="permission_settings_button">فتح إعدادات التطبيق</string>
+    <string name="permission_privacy_badge">دون اتصال • بدون إذن إنترنت</string>
+    <string name="permission_denied_hint">يلزم إذن التخزين للوصول إلى ملفات الصوت والفيديو المحلية على جهازك.</string>
+
+    <!-- Audio Tab -->
+    <string name="audio_header">الصوتيات</string>
+    <string name="audio_search_hint">ابحث عن المقاطع أو الفنانين…</string>
+    <string name="sort_name">الاسم</string>
+    <string name="sort_date">تاريخ الإضافة</string>
+    <string name="sort_duration">المدة</string>
+    <string name="shuffle_all">تشغيل عشوائي</string>
+    <string name="empty_audio_title">لا توجد ملفات صوتية</string>
+    <string name="empty_audio_desc">أضف ملفات صوتية إلى جهازك ثم اضغط على تحديث لإعادة المسح.</string>
+
+    <!-- Video Tab -->
+    <string name="video_header">الفيديوهات</string>
+    <string name="video_search_hint">ابحث في الفيديوهات…</string>
+    <string name="empty_video_title">لا توجد فيديوهات محلية</string>
+    <string name="empty_video_desc">قم بنسخ أو تصوير فيديوهات على جهازك ثم اضغط على تحديث.</string>
+    <string name="play_as_audio">تشغيل كصوت</string>
+    <string name="switch_to_video">مشاهدة الفيديو</string>
+
+    <!-- Playlists Tab -->
+    <string name="playlists_header">قوائم التشغيل</string>
+    <string name="favorites_title">المفضلة</string>
+    <string name="recently_played_title">المشغّلة مؤخراً</string>
+    <string name="custom_playlists_section">قوائمك الخاصة</string>
+    <string name="new_playlist">قائمة جديدة</string>
+    <string name="rename_playlist">إعادة التسمية</string>
+    <string name="delete_playlist">حذف القائمة</string>
+    <string name="playlist_name_hint">اسم قائمة التشغيل</string>
+    <string name="create">إنشاء</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+    <string name="empty_playlists_title">لا توجد قوائم تشغيل بعد</string>
+    <string name="empty_playlists_desc">أنشئ قوائم تشغيل مخصصة تجمع الصوتيات والفيديوهات معاً.</string>
+    <string name="empty_playlist_items">هذه القائمة فارغة. أضف صوتيات أو فيديوهات من مكتبتك.</string>
+    <string name="add_to_playlist">إضافة إلى قائمة تشغيل</string>
+    <string name="remove_from_playlist">إزالة من القائمة</string>
+
+    <!-- Folders Tab -->
+    <string name="folders_header">المجلدات</string>
+    <string name="empty_folders_title">لا توجد مجلدات وسائط</string>
+    <string name="empty_folders_desc">ستظهر هنا المجلدات التي تحتوي على ملفات الصوت والفيديو تلقائياً.</string>
+    <string name="filter_all">الكل</string>
+
+    <!-- Now Playing & Controls -->
+    <string name="now_playing">قيد التشغيل الآن</string>
+    <string name="audio_mode_badge">صوت في الخلفية</string>
+    <string name="playback_speed">السرعة</string>
+    <string name="sleep_timer">مؤقت النوم</string>
+    <string name="sleep_timer_off">إيقاف</string>
+    <string name="sleep_timer_15">15 دقيقة</string>
+    <string name="sleep_timer_30">30 دقيقة</string>
+    <string name="sleep_timer_60">60 دقيقة</string>
+    <string name="repeat_off">إيقاف التكرار</string>
+    <string name="repeat_all">تكرار الكل</string>
+    <string name="repeat_one">تكرار المقطع</string>
+    <string name="shuffle">عشوائي</string>
+    <string name="favorite">المفضلة</string>
+    <string name="refresh">تحديث</string>
+    <string name="play_pause">تشغيل أو إيقاف مؤقت</string>
+    <string name="previous_track">السابق</string>
+    <string name="next_track">التالي</string>
+    <string name="seek_back_10">ترجيع 10 ثوانٍ</string>
+    <string name="seek_forward_10">تقديم 10 ثوانٍ</string>
+    <string name="rotate_screen">تدوير الشاشة</string>
+    <string name="resize_video">تغيير أبعاد الفيديو</string>
+    <string name="collapse_player">تصغير المشغل</string>
+    <string name="back">رجوع</string>
+    <string name="more_options">خيارات إضافية</string>
+    <string name="unknown_artist">فنان غير معروف</string>
+    <string name="brightness">السطوع</string>
+    <string name="volume">الصوت</string>
+</resources>

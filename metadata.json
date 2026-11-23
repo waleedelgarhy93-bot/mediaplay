@@ -1,0 +1,6 @@
+{
+  "name": "PulsePlay",
+  "description": "Offline-only local audio and video player built with Media3 ExoPlayer, Room Database, and Material 3 Dark Mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

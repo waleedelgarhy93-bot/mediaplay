@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">PulsePlay</string>
+
+    <!-- Bottom Navigation Tabs -->
+    <string name="tab_audio">Audio</string>
+    <string name="tab_video">Videos</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="tab_folders">Folders</string>
+
+    <!-- Permission Screen -->
+    <string name="permission_title">Your Offline Media Studio</string>
+    <string name="permission_subtitle">Zero ads. Zero internet. 100% private local playback for all your audio and video files.</string>
+    <string name="permission_grant_button">Allow Media Access</string>
+    <string name="permission_settings_button">Open App Settings</string>
+    <string name="permission_privacy_badge">Offline Only • No Network Permission</string>
+    <string name="permission_denied_hint">Storage permission is required to scan your local audio and video libraries.</string>
+
+    <!-- Audio Tab -->
+    <string name="audio_header">Audio Library</string>
+    <string name="audio_search_hint">Search songs, artists, albums…</string>
+    <string name="sort_name">Name</string>
+    <string name="sort_date">Date Added</string>
+    <string name="sort_duration">Duration</string>
+    <string name="shuffle_all">Shuffle All</string>
+    <string name="empty_audio_title">No Local Audio Found</string>
+    <string name="empty_audio_desc">Add MP3, FLAC, M4A, or WAV files to your device and tap refresh to scan.</string>
+
+    <!-- Video Tab -->
+    <string name="video_header">Videos</string>
+    <string name="video_search_hint">Search local videos…</string>
+    <string name="empty_video_title">No Local Videos Found</string>
+    <string name="empty_video_desc">Record or copy MP4, MKV, or WebM videos onto your device and tap refresh.</string>
+    <string name="play_as_audio">Play as Audio</string>
+    <string name="switch_to_video">Watch Video</string>
+
+    <!-- Playlists Tab -->
+    <string name="playlists_header">Playlists</string>
+    <string name="favorites_title">Favorites</string>
+    <string name="recently_played_title">Recently Played</string>
+    <string name="custom_playlists_section">Your Playlists</string>
+    <string name="new_playlist">New Playlist</string>
+    <string name="rename_playlist">Rename Playlist</string>
+    <string name="delete_playlist">Delete Playlist</string>
+    <string name="playlist_name_hint">Playlist name</string>
+    <string name="create">Create</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="empty_playlists_title">No Custom Playlists Yet</string>
+    <string name="empty_playlists_desc">Create playlists to mix both audio tracks and video files in one queue.</string>
+    <string name="empty_playlist_items">This playlist is empty. Add audio or video files from your library.</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="remove_from_playlist">Remove from Playlist</string>
+
+    <!-- Folders Tab -->
+    <string name="folders_header">Folders</string>
+    <string name="empty_folders_title">No Media Folders</string>
+    <string name="empty_folders_desc">Device folders containing audio or video files will appear here automatically.</string>
+    <string name="filter_all">All</string>
+
+    <!-- Now Playing & Controls -->
+    <string name="now_playing">Now Playing</string>
+    <string name="audio_mode_badge">Background Audio</string>
+    <string name="playback_speed">Speed</string>
+    <string name="sleep_timer">Sleep Timer</string>
+    <string name="sleep_timer_off">Off</string>
+    <string name="sleep_timer_15">15 min</string>
+    <string name="sleep_timer_30">30 min</string>
+    <string name="sleep_timer_60">60 min</string>
+    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="favorite">Favorite</string>
+    <string name="refresh">Refresh</string>
+    <string name="play_pause">Play or pause</string>
+    <string name="previous_track">Previous</string>
+    <string name="next_track">Next</string>
+    <string name="seek_back_10">Rewind 10 seconds</string>
+    <string name="seek_forward_10">Forward 10 seconds</string>
+    <string name="rotate_screen">Toggle screen orientation</string>
+    <string name="resize_video">Toggle video aspect ratio</string>
+    <string name="collapse_player">Collapse player</string>
+    <string name="back">Back</string>
+    <string name="more_options">More options</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="brightness">Brightness</string>
+    <string name="volume">Volume</string>
+</resources>
