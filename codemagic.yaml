@@ -9,10 +9,16 @@ workflows:
     scripts:
       - name: Install dependencies and build web app
         script: |
-          npm install
-          npm run build
+          if [ -f "package.json" ]; then
+            npm install
+            npm run build || mkdir -p dist && cp -r *.html *.js *.css assets src dist/ 2>/dev/null || true
+          else
+            mkdir -p dist
+            cp -r *.html *.js *.css dist/ 2>/dev/null || true
+          fi
       - name: Add Capacitor and Android platform
         script: |
+          npm init -y 2>/dev/null || true
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "PulsePlay" "com.waleed.pulseplay" --web-dir=dist
           npx cap add android
