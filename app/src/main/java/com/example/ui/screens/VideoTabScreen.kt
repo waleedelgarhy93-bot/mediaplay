@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.R
+import com.example.ui.components.MediaToolsMenuItem
 import com.example.data.model.LocalMediaItem
 import com.example.data.model.MediaFormatters
 import com.example.ui.components.EmptyLibraryState
@@ -392,6 +393,7 @@ fun VideoItemCard(
                                 onAddToPlaylist()
                             }
                         )
+                        MediaToolsMenuItem(item = video, onDismissMenu = { menuExpanded = false })
                         if (extraMenuActionLabel != null && onExtraMenuAction != null) {
                             DropdownMenuItem(
                                 text = { Text(extraMenuActionLabel) },

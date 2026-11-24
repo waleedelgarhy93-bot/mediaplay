@@ -1,6 +1,7 @@
 package com.example.data
 
 import com.example.data.local.FavoriteEntity
+import com.example.data.local.HiddenMediaEntity
 import com.example.data.local.MediaDao
 import com.example.data.local.PlaybackHistoryEntity
 import com.example.data.local.PlaylistEntity
@@ -19,6 +20,22 @@ class MediaRepository(
     val playlists: Flow<List<PlaylistWithCount>> = dao.observePlaylistsWithCount()
     val favoriteUris: Flow<List<String>> = dao.observeFavoriteUris()
     val recentHistory: Flow<List<PlaybackHistoryEntity>> = dao.observeRecentHistory()
+    val hiddenUris: Flow<List<String>> = dao.observeHiddenUris()
+
+    suspend fun hideMedia(mediaUri: String) {
+        dao.hideMedia(HiddenMediaEntity(mediaUri = mediaUri))
+    }
+
+    suspend fun unhideAll() {
+        dao.unhideAll()
+    }
+
+    /** Removes every trace of a file that no longer exists on the phone. */
+    suspend fun forgetDeletedMedia(mediaUri: String) {
+        dao.removeFavorite(mediaUri)
+        dao.deletePlaylistItemsForUri(mediaUri)
+        dao.deleteHistoryForUri(mediaUri)
+    }
 
     fun observePlaylistItemUris(playlistId: Long): Flow<List<String>> =
         dao.observePlaylistItemUris(playlistId)

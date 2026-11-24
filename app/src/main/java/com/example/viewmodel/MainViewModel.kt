@@ -44,6 +44,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _audioFiles = MutableStateFlow<List<LocalMediaItem>>(emptyList())
     private val _videoFiles = MutableStateFlow<List<LocalMediaItem>>(emptyList())
 
+    /** URIs the user removed "from the app only". */
+    val hiddenUris: StateFlow<Set<String>> = repository.hiddenUris
+        .map { it.toSet() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+
+    private val visibleAudio: StateFlow<List<LocalMediaItem>> =
+        combine(_audioFiles, hiddenUris) { items, hidden -> items.filter { it.uri !in hidden } }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    private val visibleVideo: StateFlow<List<LocalMediaItem>> =
+        combine(_videoFiles, hiddenUris) { items, hidden -> items.filter { it.uri !in hidden } }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     private val _audioSearchQuery = MutableStateFlow("")
     val audioSearchQuery: StateFlow<String> = _audioSearchQuery.asStateFlow()
 
@@ -57,14 +70,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val mediaController: StateFlow<MediaController?> = playbackManager.controller
 
     val allMediaMap: StateFlow<Map<String, LocalMediaItem>> = combine(
-        _audioFiles,
-        _videoFiles
+        visibleAudio,
+        visibleVideo
     ) { audio, video ->
         (audio + video).associateBy { it.uri }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
 
     val filteredAudio: StateFlow<List<LocalMediaItem>> = combine(
-        _audioFiles,
+        visibleAudio,
         _audioSearchQuery,
         _audioSortOption
     ) { tracks, query, sort ->
@@ -87,7 +100,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     val filteredVideos: StateFlow<List<LocalMediaItem>> = combine(
-        _videoFiles,
+        visibleVideo,
         _videoSearchQuery
     ) { videos, query ->
         val trimmed = query.trim()
@@ -101,7 +114,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    val folders: StateFlow<List<MediaFolder>> = combine(_audioFiles, _videoFiles) { audio, video ->
+    val folders: StateFlow<List<MediaFolder>> = combine(visibleAudio, visibleVideo) { audio, video ->
         val all = audio + video
         all.groupBy { it.folderPath }
             .map { (path, items) ->
@@ -226,7 +239,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getItemsForFolder(folderPath: String): Flow<List<LocalMediaItem>> {
-        return combine(_audioFiles, _videoFiles) { audio, video ->
+        return combine(visibleAudio, visibleVideo) { audio, video ->
             (audio + video)
                 .filter { it.folderPath == folderPath }
                 .sortedByDescending { it.dateAddedSec }
@@ -286,6 +299,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun toggleFavorite(mediaUri: String) {
         viewModelScope.launch {
             repository.toggleFavorite(mediaUri)
+        }
+    }
+
+    /** Removes the item from the library view only; the file stays on the phone. */
+    fun hideFromApp(item: LocalMediaItem) {
+        viewModelScope.launch { repository.hideMedia(item.uri) }
+    }
+
+    fun unhideAll() {
+        viewModelScope.launch { repository.unhideAll() }
+    }
+
+    /** Called after the file was really deleted from the phone. */
+    fun onDeletedFromDevice(item: LocalMediaItem) {
+        _audioFiles.value = _audioFiles.value.filterNot { it.uri == item.uri }
+        _videoFiles.value = _videoFiles.value.filterNot { it.uri == item.uri }
+        viewModelScope.launch {
+            repository.forgetDeletedMedia(item.uri)
+            refreshLibrary()
         }
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PulsePlay</string>
+    <string name="app_name">Lopital Media</string>
 
     <!-- Bottom Navigation Tabs -->
     <string name="tab_audio">Audio</string>
@@ -9,10 +9,10 @@
 
     <!-- Permission Screen -->
     <string name="permission_title">Your Offline Media Studio</string>
-    <string name="permission_subtitle">Zero ads. Zero internet. 100% private local playback for all your audio and video files.</string>
+    <string name="permission_subtitle">Play, convert, cut and download all your audio and video files.</string>
     <string name="permission_grant_button">Allow Media Access</string>
     <string name="permission_settings_button">Open App Settings</string>
-    <string name="permission_privacy_badge">Offline Only • No Network Permission</string>
+    <string name="permission_privacy_badge">Lopital Media</string>
     <string name="permission_denied_hint">Storage permission is required to scan your local audio and video libraries.</string>
 
     <!-- Audio Tab -->
@@ -86,4 +86,51 @@
     <string name="unknown_artist">Unknown Artist</string>
     <string name="brightness">Brightness</string>
     <string name="volume">Volume</string>
+
+    <!-- Lopital Media tools -->
+    <string name="tab_download">Download</string>
+    <string name="media_tools">Cut / Convert / Delete</string>
+    <string name="tools_convert">Convert or cut</string>
+    <string name="tools_convert_desc">MP4, 3GP, MP3, M4A, choose quality, cut a part</string>
+    <string name="tools_hide">Remove from app only</string>
+    <string name="tools_hide_desc">The file stays on your phone</string>
+    <string name="tools_delete">Delete from phone</string>
+    <string name="tools_delete_desc">The file is deleted permanently</string>
+    <string name="delete_confirm_title">Delete permanently?</string>
+    <string name="delete_confirm_msg">\"%1$s\" will be deleted from your phone. This cannot be undone.</string>
+    <string name="close">Close</string>
+    <string name="deleted_ok">Deleted</string>
+    <string name="delete_failed">Could not delete: %1$s</string>
+    <string name="hidden_ok">Removed from the app</string>
+    <string name="convert_title">Convert / Cut</string>
+    <string name="convert_range">Part to keep</string>
+    <string name="convert_start">Start</string>
+    <string name="convert_end">End</string>
+    <string name="convert_format">Output format</string>
+    <string name="convert_quality">Video quality</string>
+    <string name="convert_bitrate">Audio quality</string>
+    <string name="format_original">Cut only (fast)</string>
+    <string name="quality_original">Original</string>
+    <string name="quality_best">Best</string>
+    <string name="convert_start_button">Start</string>
+    <string name="convert_running">Working… %1$d%%</string>
+    <string name="convert_done">Done! Saved in Movies or Music / Lopital Media</string>
+    <string name="convert_failed">Failed: %1$s</string>
+    <string name="download_header">Download from the internet</string>
+    <string name="download_subtitle">YouTube, Facebook, Instagram, TikTok, X and many more sites</string>
+    <string name="download_url_hint">Paste the video link here</string>
+    <string name="paste">Paste</string>
+    <string name="download_video">Video</string>
+    <string name="download_audio">Audio (MP3)</string>
+    <string name="download_button">Download</string>
+    <string name="download_tasks">Downloads</string>
+    <string name="download_clear">Clear finished</string>
+    <string name="download_done">Saved to Lopital Media</string>
+    <string name="download_cancelled">Cancelled</string>
+    <string name="download_waiting">Starting…</string>
+    <string name="download_share_tip">Tip: in YouTube or Facebook press Share → Lopital Media</string>
+    <string name="engine_update">Update download engine</string>
+    <string name="engine_update_desc">Use it if a site stops downloading</string>
+    <string name="restore_hidden">Restore removed files (%1$d)</string>
+    <string name="settings">Settings</string>
 </resources>

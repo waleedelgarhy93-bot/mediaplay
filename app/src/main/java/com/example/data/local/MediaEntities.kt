@@ -45,6 +45,13 @@ data class PlaybackHistoryEntity(
     val lastPlayedAt: Long = System.currentTimeMillis()
 )
 
+/** Media the user removed from the app only (file stays on the phone). */
+@Entity(tableName = "hidden_media")
+data class HiddenMediaEntity(
+    @PrimaryKey val mediaUri: String,
+    val hiddenAt: Long = System.currentTimeMillis()
+)
+
 data class PlaylistWithCount(
     val id: Long,
     val name: String,

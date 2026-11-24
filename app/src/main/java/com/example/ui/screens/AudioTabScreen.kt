@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.R
+import com.example.ui.components.MediaToolsMenuItem
 import com.example.data.model.AudioSortOption
 import com.example.data.model.LocalMediaItem
 import com.example.data.model.MediaFormatters
@@ -391,6 +392,7 @@ fun AudioTrackCard(
                             onAddToPlaylist()
                         }
                     )
+                    MediaToolsMenuItem(item = track, onDismissMenu = { menuExpanded = false })
                     if (extraMenuActionLabel != null && onExtraMenuAction != null) {
                         DropdownMenuItem(
                             text = { Text(extraMenuActionLabel) },

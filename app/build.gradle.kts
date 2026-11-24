@@ -20,7 +20,13 @@ android {
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+    // yt-dlp / ffmpeg ship native binaries; keep only real-phone ABIs to limit APK size
+    ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
   }
+
+  // The bundled python/ffmpeg binaries must be extracted to nativeLibraryDir to be executable
+  packaging { jniLibs { useLegacyPackaging = true } }
 
   // Do not remove or modify these signingConfigs. They are necessary for building, installing,
   // and updating Android apps in AI Studio.
@@ -111,6 +117,8 @@ dependencies {
   implementation(libs.androidx.media3.session)
   implementation(libs.androidx.media3.ui)
   implementation(libs.androidx.media3.common)
+  implementation(libs.youtubedl.library)
+  implementation(libs.youtubedl.ffmpeg)
   // implementation(libs.converter.moshi)
   // implementation(libs.firebase.ai)
   // Uncomment to use Firestore:

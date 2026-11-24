@@ -64,4 +64,21 @@ interface MediaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertPlaybackHistory(history: PlaybackHistoryEntity)
+
+    // Hidden ("removed from app only") media
+    @Query("SELECT mediaUri FROM hidden_media")
+    fun observeHiddenUris(): Flow<List<String>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun hideMedia(entity: HiddenMediaEntity)
+
+    @Query("DELETE FROM hidden_media")
+    suspend fun unhideAll()
+
+    // Cleanup after a file is deleted from the phone
+    @Query("DELETE FROM playlist_items WHERE mediaUri = :mediaUri")
+    suspend fun deletePlaylistItemsForUri(mediaUri: String)
+
+    @Query("DELETE FROM playback_history WHERE mediaUri = :mediaUri")
+    suspend fun deleteHistoryForUri(mediaUri: String)
 }

@@ -23,9 +23,11 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.QueueMusic
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Videocam
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.MusicNote
 import androidx.compose.material.icons.rounded.Videocam
@@ -40,7 +42,25 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import android.app.Activity
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import com.example.SharedLinkBus
+import com.example.media.MediaFiles
+import com.example.ui.components.ConvertDialog
+import com.example.ui.components.LocalMediaToolsLauncher
+import com.example.ui.components.MediaToolsSheet
+import com.example.ui.screens.DownloadScreen
+import com.example.viewmodel.ToolsViewModel
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -102,6 +122,12 @@ enum class MainTab(
         labelRes = R.string.tab_folders,
         selectedIcon = Icons.Rounded.Folder,
         unselectedIcon = Icons.Outlined.Folder
+    ),
+    DOWNLOAD(
+        route = "download_tab",
+        labelRes = R.string.tab_download,
+        selectedIcon = Icons.Rounded.Download,
+        unselectedIcon = Icons.Outlined.Download
     )
 }
 
@@ -119,6 +145,13 @@ fun PulsePlayApp(viewModel: MainViewModel) {
         )
         return
     }
+
+    val toolsViewModel: ToolsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    SideEffect { toolsViewModel.onLibraryChanged = { viewModel.refreshLibrary() } }
+    val hiddenUris by viewModel.hiddenUris.collectAsStateWithLifecycle()
+    val convertJob by toolsViewModel.convertJob.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val isScanning by viewModel.isScanning.collectAsStateWithLifecycle()
     val audioTracks by viewModel.filteredAudio.collectAsStateWithLifecycle()
@@ -140,6 +173,64 @@ fun PulsePlayApp(viewModel: MainViewModel) {
     var isNowPlayingExpanded by remember { mutableStateOf(false) }
     var isVideoPlayerOpen by remember { mutableStateOf(false) }
     var playlistPickerTarget by remember { mutableStateOf<LocalMediaItem?>(null) }
+    var toolsTarget by remember { mutableStateOf<LocalMediaItem?>(null) }
+    var convertTarget by remember { mutableStateOf<LocalMediaItem?>(null) }
+    var pendingDelete by remember { mutableStateOf<Pair<LocalMediaItem, Boolean>?>(null) }
+
+    // Link shared from YouTube/Facebook/... -> open the Download tab with it
+    LaunchedEffect(Unit) {
+        SharedLinkBus.pending.collect { link ->
+            if (link != null) {
+                toolsViewModel.setUrl(link)
+                currentTab = MainTab.DOWNLOAD
+                selectedPlaylist = null
+                selectedFolder = null
+                SharedLinkBus.pending.value = null
+            }
+        }
+    }
+
+    val launchDeleteRequest = remember { mutableStateOf<(MediaFiles.DeleteResult.NeedsConfirmation) -> Unit>({}) }
+
+    fun deleteFromPhone(item: LocalMediaItem) {
+        scope.launch {
+            when (val result = MediaFiles.delete(context, android.net.Uri.parse(item.uri))) {
+                MediaFiles.DeleteResult.Deleted -> {
+                    viewModel.onDeletedFromDevice(item)
+                    Toast.makeText(context, R.string.deleted_ok, Toast.LENGTH_SHORT).show()
+                }
+                is MediaFiles.DeleteResult.NeedsConfirmation -> {
+                    pendingDelete = item to result.deletesItself
+                    launchDeleteRequest.value(result)
+                }
+                is MediaFiles.DeleteResult.Failed -> Toast.makeText(
+                    context,
+                    context.getString(R.string.delete_failed, result.message),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    val deleteLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        val pending = pendingDelete
+        pendingDelete = null
+        if (result.resultCode == Activity.RESULT_OK && pending != null) {
+            val (item, deletesItself) = pending
+            if (deletesItself) {
+                viewModel.onDeletedFromDevice(item)
+                Toast.makeText(context, R.string.deleted_ok, Toast.LENGTH_SHORT).show()
+            } else {
+                // Android 10: access granted, now delete for real
+                deleteFromPhone(item)
+            }
+        }
+    }
+    launchDeleteRequest.value = { request ->
+        deleteLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
+    }
 
     val handlePlayMedia: (LocalMediaItem, List<LocalMediaItem>, Boolean) -> Unit =
         { item, queue, asAudioOnly ->
@@ -152,6 +243,7 @@ fun PulsePlayApp(viewModel: MainViewModel) {
             }
         }
 
+    CompositionLocalProvider(LocalMediaToolsLauncher provides { item -> toolsTarget = item }) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -217,7 +309,9 @@ fun PulsePlayApp(viewModel: MainViewModel) {
                             onSelectPlaylist = { selectedPlaylist = it },
                             onSelectFolder = { selectedFolder = it },
                             onPlayMedia = handlePlayMedia,
-                            onAddToPlaylist = { playlistPickerTarget = it }
+                            onAddToPlaylist = { playlistPickerTarget = it },
+                            toolsViewModel = toolsViewModel,
+                            hiddenCount = hiddenUris.size
                         )
 
                         androidx.compose.animation.AnimatedVisibility(
@@ -342,7 +436,9 @@ fun PulsePlayApp(viewModel: MainViewModel) {
                             onSelectPlaylist = { selectedPlaylist = it },
                             onSelectFolder = { selectedFolder = it },
                             onPlayMedia = handlePlayMedia,
-                            onAddToPlaylist = { playlistPickerTarget = it }
+                            onAddToPlaylist = { playlistPickerTarget = it },
+                            toolsViewModel = toolsViewModel,
+                            hiddenCount = hiddenUris.size
                         )
                     }
                 }
@@ -427,6 +523,42 @@ fun PulsePlayApp(viewModel: MainViewModel) {
                 onDismiss = { playlistPickerTarget = null }
             )
         }
+
+        // Cut / Convert / Delete sheet
+        toolsTarget?.let { item ->
+            MediaToolsSheet(
+                item = item,
+                onConvert = {
+                    toolsTarget = null
+                    toolsViewModel.dismissConvertJob()
+                    convertTarget = item
+                },
+                onHide = {
+                    toolsTarget = null
+                    viewModel.hideFromApp(item)
+                    Toast.makeText(context, R.string.hidden_ok, Toast.LENGTH_SHORT).show()
+                },
+                onDeleteFromPhone = {
+                    toolsTarget = null
+                    deleteFromPhone(item)
+                },
+                onDismiss = { toolsTarget = null }
+            )
+        }
+
+        convertTarget?.let { item ->
+            ConvertDialog(
+                item = item,
+                job = convertJob,
+                onStart = { toolsViewModel.startConvert(it) },
+                onCancelJob = { toolsViewModel.cancelConvert() },
+                onDismiss = {
+                    convertTarget = null
+                    toolsViewModel.dismissConvertJob()
+                }
+            )
+        }
+    }
     }
 }
 
@@ -451,7 +583,9 @@ private fun MainTabContent(
     onSelectPlaylist: (PlaylistSelection?) -> Unit,
     onSelectFolder: (MediaFolder?) -> Unit,
     onPlayMedia: (LocalMediaItem, List<LocalMediaItem>, Boolean) -> Unit,
-    onAddToPlaylist: (LocalMediaItem) -> Unit
+    onAddToPlaylist: (LocalMediaItem) -> Unit,
+    toolsViewModel: ToolsViewModel,
+    hiddenCount: Int
 ) {
     val currentUri = playbackState.currentMedia?.uri
 
@@ -592,6 +726,24 @@ private fun MainTabContent(
                         folders = folders,
                         onRefresh = { viewModel.refreshLibrary() },
                         onFolderClick = { onSelectFolder(it) }
+                    )
+                }
+
+                MainTab.DOWNLOAD -> {
+                    val url by toolsViewModel.urlInput.collectAsStateWithLifecycle()
+                    val tasks by toolsViewModel.downloads.collectAsStateWithLifecycle()
+                    val engineStatus by toolsViewModel.engineStatus.collectAsStateWithLifecycle()
+                    DownloadScreen(
+                        url = url,
+                        tasks = tasks,
+                        engineStatus = engineStatus,
+                        hiddenCount = hiddenCount,
+                        onUrlChange = { toolsViewModel.setUrl(it) },
+                        onDownload = { kind, quality, bitrate -> toolsViewModel.startDownload(kind, quality, bitrate) },
+                        onCancel = { toolsViewModel.cancelDownload(it) },
+                        onClearFinished = { toolsViewModel.clearFinished() },
+                        onUpdateEngine = { toolsViewModel.updateEngine() },
+                        onRestoreHidden = { viewModel.unhideAll() }
                     )
                 }
             }

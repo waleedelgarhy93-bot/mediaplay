@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PulsePlay</string>
+    <string name="app_name">لوبيتال ميديا</string>
 
     <!-- Bottom Navigation Tabs -->
     <string name="tab_audio">الصوتيات</string>
@@ -9,10 +9,10 @@
 
     <!-- Permission Screen -->
     <string name="permission_title">مشغل الوسائط المحلي</string>
-    <string name="permission_subtitle">بدون إعلانات. بدون إنترنت. تشغيل محلي وخاص 100% لجميع ملفات الصوت والفيديو.</string>
+    <string name="permission_subtitle">شغّل وحوّل وقص وحمّل كل ملفات الصوت والفيديو.</string>
     <string name="permission_grant_button">منح إذن الوسائط</string>
     <string name="permission_settings_button">فتح إعدادات التطبيق</string>
-    <string name="permission_privacy_badge">دون اتصال • بدون إذن إنترنت</string>
+    <string name="permission_privacy_badge">لوبيتال ميديا</string>
     <string name="permission_denied_hint">يلزم إذن التخزين للوصول إلى ملفات الصوت والفيديو المحلية على جهازك.</string>
 
     <!-- Audio Tab -->
@@ -86,4 +86,51 @@
     <string name="unknown_artist">فنان غير معروف</string>
     <string name="brightness">السطوع</string>
     <string name="volume">الصوت</string>
+
+    <!-- Lopital Media tools -->
+    <string name="tab_download">تحميل</string>
+    <string name="media_tools">قص / تحويل / حذف</string>
+    <string name="tools_convert">تحويل الصيغة أو القص</string>
+    <string name="tools_convert_desc">MP4 و 3GP و MP3 و M4A، اختيار الجودة، قص جزء معيّن</string>
+    <string name="tools_hide">حذف من التطبيق فقط</string>
+    <string name="tools_hide_desc">الملف يفضل موجود على التليفون</string>
+    <string name="tools_delete">حذف من التليفون نهائياً</string>
+    <string name="tools_delete_desc">الملف هيتمسح من الجهاز خالص</string>
+    <string name="delete_confirm_title">حذف نهائي؟</string>
+    <string name="delete_confirm_msg">\"%1$s\" هيتمسح من التليفون نهائياً، ومش هينفع ترجّعه.</string>
+    <string name="close">إغلاق</string>
+    <string name="deleted_ok">تم الحذف</string>
+    <string name="delete_failed">تعذّر الحذف: %1$s</string>
+    <string name="hidden_ok">اتشال من التطبيق</string>
+    <string name="convert_title">تحويل / قص</string>
+    <string name="convert_range">الجزء المطلوب</string>
+    <string name="convert_start">البداية</string>
+    <string name="convert_end">النهاية</string>
+    <string name="convert_format">الصيغة</string>
+    <string name="convert_quality">جودة الفيديو</string>
+    <string name="convert_bitrate">جودة الصوت</string>
+    <string name="format_original">قص فقط (سريع)</string>
+    <string name="quality_original">الأصلية</string>
+    <string name="quality_best">أفضل جودة</string>
+    <string name="convert_start_button">ابدأ</string>
+    <string name="convert_running">جاري التنفيذ… %1$d%%</string>
+    <string name="convert_done">تم! الملف اتحفظ في Movies أو Music / Lopital Media</string>
+    <string name="convert_failed">فشل: %1$s</string>
+    <string name="download_header">التحميل من الإنترنت</string>
+    <string name="download_subtitle">يوتيوب، فيسبوك، إنستجرام، تيك توك، X ومواقع كتير غيرهم</string>
+    <string name="download_url_hint">الصق رابط الفيديو هنا</string>
+    <string name="paste">لصق</string>
+    <string name="download_video">فيديو</string>
+    <string name="download_audio">صوت (MP3)</string>
+    <string name="download_button">تحميل</string>
+    <string name="download_tasks">التحميلات</string>
+    <string name="download_clear">مسح المنتهي</string>
+    <string name="download_done">اتحفظ في Lopital Media</string>
+    <string name="download_cancelled">اتلغى</string>
+    <string name="download_waiting">جاري البدء…</string>
+    <string name="download_share_tip">نصيحة: من يوتيوب أو فيسبوك اضغط مشاركة ← لوبيتال ميديا</string>
+    <string name="engine_update">تحديث محرّك التحميل</string>
+    <string name="engine_update_desc">استخدمه لو موقع بطّل يحمّل</string>
+    <string name="restore_hidden">رجّع الملفات اللي اتشالت (%1$d)</string>
+    <string name="settings">الإعدادات</string>
 </resources>
